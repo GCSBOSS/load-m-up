@@ -1,0 +1,42 @@
+{
+  "name": "load-m-up",
+  "version": "0.1.0",
+  "description": "A RESTful service specialized in receiving and managing web file uploads.",
+  "keywords": [
+    "server",
+    "upload",
+    "control",
+    "whitelist",
+    "container",
+    "docker",
+    "service",
+    "api",
+    "restful"
+  ],
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "mocha -b --no-diff test/*.js",
+    "coverage": "nyc -r html -r text-summary mocha -b --no-diff test/*.js"
+  },
+  "author": "Guilherme C. Souza",
+  "license": "MIT",
+  "devDependencies": {
+    "form-data": "^2.5.0",
+    "muhb": "^0.1.1",
+    "tempper": "^0.1.1",
+    "wtfnode": "^0.8.0"
+  },
+  "bin": {
+    "load-m-up": "bin/load-m-up.js"
+  },
+  "dependencies": {
+    "nodecaf": "^0.7.3"
+  },
+  "bugs": {
+      "url": "https://gitlab.com/GCSBOSS/load-m-up/issues"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git+https://gitlab.com/GCSBOSS/load-m-up.git"
+  }
+}
