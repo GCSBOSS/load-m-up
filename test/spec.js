@@ -127,7 +127,7 @@ describe('Load m Up', function(){
             form.submit(LOCAL_HOST + 'upload', async (err, res) => {
                 let body = await parseBody(res);
                 assert.strictEqual(res.statusCode, 201);
-                assert.strictEqual(body.length, 40);
+                assert.strictEqual(body.length, 64);
                 tmp.assertExists('uploads/tmp/' + body + '/upload.txt');
                 await delay(7);
                 tmp.assertMissing('uploads/tmp/' + body + '/upload.txt');
@@ -194,7 +194,6 @@ describe('Load m Up', function(){
             form.submit(LOCAL_HOST + 'upload', async (err, res) => {
                 let body = await parseBody(res);
                 assert.strictEqual(res.statusCode, 201);
-                assert.strictEqual(body.length, 40);
                 tmp.assertExists('tups/' + body + '/upload.txt');
                 await delay(2);
                 tmp.assertMissing('tups/' + body + '/upload.txt');
