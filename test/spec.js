@@ -70,9 +70,15 @@ describe('Load m Up', function(){
     describe('POST /confirmation', function(){
 
         it('Should return an unauthorized error when token doesn\'t match', async function(){
-            let { status, body } = await post(LOCAL_HOST + 'confirmation');
+            process.env.LOADMUP_TOKEN = 'notnone';
+            let { status, body } = await post(
+                LOCAL_HOST + 'confirmation',
+                { 'Content-Type': 'application/json' },
+                '{"token":"none"}'
+            );
             assert.strictEqual(status, 401);
             assert(/Invalid access token/.test(body));
+            delete process.env.LOADMUP_TOKEN;
         });
 
         it('Should return an invalid input error when temp upload doesn\'t exist', async function(){

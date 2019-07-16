@@ -30,6 +30,13 @@
     "load-m-up": "bin/load-m-up.js"
   },
   "dependencies": {
-    "nodecaf": "^0.7.2"
+    "nodecaf": "^0.7.3"
+  },
+  "bugs": {
+      "url": "https://gitlab.com/GCSBOSS/load-m-up/issues"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git+https://gitlab.com/GCSBOSS/load-m-up.git"
   }
 }
