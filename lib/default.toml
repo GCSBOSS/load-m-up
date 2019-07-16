@@ -1,8 +1,8 @@
 debug = false
+name = "load-m-up"
 confirmTimeout = 6 # seconds
 dir = "./uploads/"
 tmpDir = "./uploads/tmp/"
 sizeLimit = 0 # bytes
-tokenEnvVar = "UPLOAD_TOKEN"
 whitelist = false
 blacklist = false

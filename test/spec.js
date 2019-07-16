@@ -216,28 +216,6 @@ describe('Load m Up', function(){
             });
         });
 
-        it('Should allow access with setup token [tokenEnvVar]', async function(){
-            app.setup({ tokenEnvVar: 'MY_TOKEN' });
-            process.env.MY_TOKEN = 'foo';
-
-            let { body: b } = await post(
-                LOCAL_HOST + 'confirmation',
-                { 'Content-Type': 'application/json' },
-                '{"token":"none","hash":"my-hash"}'
-            );
-            assert(/Invalid access token/.test(b));
-
-            tmp.mkdir('uploads/tmp/my-hash');
-            tmp.addFile('./res/upload.txt', './uploads/tmp/my-hash/upload.txt');
-            let { status, body } = await post(
-                LOCAL_HOST + 'confirmation',
-                { 'Content-Type': 'application/json' },
-                '{"token":"foo","hash":"my-hash"}'
-            );
-            assert.strictEqual(status, 201);
-            assert.strictEqual(body, '/my-hash/upload.txt');
-        });
-
         it('Should deny mime-types not present on the whitelist [whitelist]', function(done){
             app.setup({ whitelist: [ 'application/json' ] });
 
