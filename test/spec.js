@@ -1,4 +1,4 @@
-const wtf = require('wtfnode');
+//const wtf = require('wtfnode');
 const fs = require('fs');
 const assert = require('assert');
 const Tempper = require('tempper');
@@ -272,4 +272,4 @@ describe('Load m Up', function(){
 
 });
 
-process.on('SIGINT', () => wtf.dump());
+//process.on('SIGINT', () => wtf.dump());
