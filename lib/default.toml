@@ -6,3 +6,6 @@ tmpDir = "./uploads/tmp/"
 sizeLimit = 0 # bytes
 whitelist = false
 blacklist = false
+multi = false
+multiSizeLimit = 0 # bytes
+multiFileLimit = 0 
