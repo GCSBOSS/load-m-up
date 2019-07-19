@@ -141,6 +141,21 @@ describe('Load m Up', function(){
             });
         });
 
+        it('Should deny uploading multiple files', function(done){
+            tmp.addFile('./res/upload.txt', 'upload.txt');
+            tmp.addFile('./res/upload2.txt', 'upload2.txt');
+
+            let form = new FormData();
+            form.append('file', fs.createReadStream('./upload.txt'));
+            form.append('file', fs.createReadStream('./upload2.txt'));
+            form.submit(LOCAL_HOST + 'upload', async (err, res) => {
+                let body = await parseBody(res);
+                assert.strictEqual(res.statusCode, 400);
+                assert(/file limit of 1/.test(body));
+                done();
+            });
+        });
+
     });
 
     describe('Settings', function(){
@@ -250,6 +265,84 @@ describe('Load m Up', function(){
                 assert(/not allowed/.test(body));
                 done();
             });
+        });
+
+        describe('Multiple Files [multi]', function(){
+
+            it('Should temporarily store multiple files sent', function(done){
+                app.setup({ multi: true });
+
+                this.timeout(8000);
+                tmp.addFile('./res/upload.txt', 'upload.txt');
+                tmp.addFile('./res/upload2.txt', 'upload2.txt');
+
+                let form = new FormData();
+                form.append('file', fs.createReadStream('./upload.txt'));
+                form.append('file', fs.createReadStream('./upload2.txt'));
+                form.submit(LOCAL_HOST + 'upload', async (err, res) => {
+                    let body = await parseBody(res);
+                    assert.strictEqual(res.statusCode, 201);
+                    assert.strictEqual(body.length, 64);
+                    tmp.assertExists('uploads/tmp/' + body + '/upload.txt');
+                    tmp.assertExists('uploads/tmp/' + body + '/upload2.txt');
+                    await delay(7);
+                    tmp.assertMissing('uploads/tmp/' + body + '/upload.txt');
+                    tmp.assertMissing('uploads/tmp/' + body + '/upload2.txt');
+                    done();
+                });
+            });
+
+            it('Should copy tmp uploads to same persistent dir', async function(){
+                app.setup({ multi: true });
+
+                tmp.mkdir('uploads/tmp/my-hash');
+                tmp.addFile('./res/upload.txt', './uploads/tmp/my-hash/upload.txt');
+                tmp.addFile('./res/upload2.txt', './uploads/tmp/my-hash/upload2.txt');
+                let { status, body } = await post(
+                    LOCAL_HOST + 'confirmation',
+                    { 'Content-Type': 'application/json' },
+                    '{"token":"none","hash":"my-hash"}'
+                );
+                tmp.assertExists('uploads/my-hash/upload.txt');
+                tmp.assertExists('uploads/my-hash/upload2.txt');
+                assert.strictEqual(status, 201);
+                assert.strictEqual(body, '/my-hash/upload.txt\r\n/my-hash/upload2.txt');
+            });
+
+            it('Should deny multi uploads whose overall size exceed the setup limit [multiSizeLimit]', function(done){
+                app.setup({ multi: true, multiSizeLimit: 10 });
+
+                tmp.addFile('./res/upload.txt', 'upload.txt');
+                tmp.addFile('./res/upload2.txt', 'upload2.txt');
+
+                let form = new FormData();
+                form.append('file', fs.createReadStream('./upload.txt'));
+                form.append('file', fs.createReadStream('./upload2.txt'));
+                form.submit(LOCAL_HOST + 'upload', async (err, res) => {
+                    let body = await parseBody(res);
+                    assert.strictEqual(res.statusCode, 400);
+                    assert(/Exceeded overall/.test(body));
+                    done();
+                });
+            });
+
+            it('Should deny uploading more files than the setup limit [multiFileLimit]', function(done){
+                app.setup({ multi: true, multiFileLimit: 1 });
+
+                tmp.addFile('./res/upload.txt', 'upload.txt');
+                tmp.addFile('./res/upload2.txt', 'upload2.txt');
+
+                let form = new FormData();
+                form.append('file', fs.createReadStream('./upload.txt'));
+                form.append('file', fs.createReadStream('./upload2.txt'));
+                form.submit(LOCAL_HOST + 'upload', async (err, res) => {
+                    let body = await parseBody(res);
+                    assert.strictEqual(res.statusCode, 400);
+                    assert(/file limit of 1/.test(body));
+                    done();
+                });
+            });
+
         });
 
     });
