@@ -34,7 +34,7 @@ so we can collaborate effectively.
 
 Endpoint | Body | Visibility | Summary
 ---------|------|---------|---
-`POST /upload` | `multipart/form-data` | Public | Upload a `file`
+`POST /upload` | `multipart/form-data` | Public | Upload files to the server
 `POST /confirmation` | `application/json` | Admin | Mark an upload as permanent
 `GET /upload/:hash/:name` | none | Public | Retrieve a given upload
 
@@ -55,3 +55,6 @@ Option | Type | Summary | Default
 `log.file` | File | Where to stream all log events. | Unset
 `ssl.key` | File | Where to look for SSL key. | Unset
 `ssl.cert` | File | Where to look for SSL cert/chain. | Unset
+`multi` | Boolean | Whether to allow multiple files in 1 request | false
+`multiSizeLimit` | Integer | A maximum overall byte size in 1 request | No Limit
+`multiFileLimit` | Integer | A maximum amount of files allowed in 1 request | No Limit
