@@ -187,8 +187,8 @@ describe('Load m Up', function(){
             assert.strictEqual(body.replace(/\s+/g, ''), 'foobar');
         });
 
-        it('Should copy temp upload to setup dir [dir] [tmpDir]', async function(){
-            app.setup({ dir: './ups/', tmpDir: './tups' });
+        it('Should copy temp upload to setup dir [dir] [formFileDir]', async function(){
+            app.setup({ dir: './ups/', formFileDir: './tups' });
 
             tmp.mkdir('ups');
             tmp.mkdir('tups/my-hash');
@@ -203,8 +203,8 @@ describe('Load m Up', function(){
             assert.strictEqual(body, '/my-hash/upload.txt');
         });
 
-        it('Should store the sent file temporarily on setup dir [tmpDir]', function(done){
-            app.setup({ tmpDir: './tups/', confirmTimeout: 1 });
+        it('Should store the sent file temporarily on setup dir [formFileDir]', function(done){
+            app.setup({ formFileDir: './tups/', confirmTimeout: 1 });
 
             tmp.mkdir('tups');
             this.timeout(3000);
