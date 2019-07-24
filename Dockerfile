@@ -15,6 +15,7 @@ RUN npm i --no-optional -P
 
 COPY . .
 
-USER load-m-up
+# This was commented to work on Windows (might be a bad idea)
+# USER load-m-up
 
 CMD ["node", "./bin/load-m-up.js"]
