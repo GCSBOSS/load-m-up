@@ -48,7 +48,7 @@ Option | Type | Summary | Default
 `port`| Boolean | HTTP port for the server to listen | 80 or 443
 `confirmTimeout` | Integer | Timeout in seconds for unconfirmed uploads to be removed. | 6
 `dir` | Directory | Where to store permanent uploads. | `./uploads`
-`tmpDir` | Directory | Where to store unconfirmed uploads. | `./uploads/tmp`
+`formFileDir` | Directory | Where to store unconfirmed uploads. | `./uploads/tmp`
 `sizeLimit` | Integer | A maximum byte size for uploads. | No limit
 `whitelist` | Array of String | An array of mime-types/extensions that should be accepted on uploads. | Disabled
 `blacklist` | Array of String | An array of mime-types/extensions that should be rejected on uploads. | Disabled
